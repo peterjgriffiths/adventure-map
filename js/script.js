@@ -1,8 +1,31 @@
-const map = L.map("map").setView([20, 0], 2);
+const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles © Esri',
+  maxZoom: 19,
+});
 
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution: "© OpenStreetMap contributors",
-}).addTo(map);
+const labels = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Labels © Esri',
+  maxZoom: 19,
+});
+
+const map = L.map('map', {
+  center: [20, 0],
+  zoom: 2,
+  layers: [satellite, labels]  // show satellite + labels
+});
+
+const baseMaps = {
+  "Satellite with labels": L.layerGroup([satellite, labels]),
+  "Street Map": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: "© OpenStreetMap contributors",
+    maxZoom: 19,
+  }),
+};
+
+L.control.layers(baseMaps).addTo(map);
+
+
+
 
 locations.forEach(loc => {
   const marker = L.marker([loc.lat, loc.lng]).addTo(map);

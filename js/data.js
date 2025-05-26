@@ -35,8 +35,8 @@ const locations = [
       person: "Conor",
       name: "Muscle Beach LA",
       country: "USA",
-      lat: 35.35217870822411, 
-      lng: -114.93954722572354,
+      lat: 34.01493794694556, 
+      lng: -118.48098437027384,
       photos: [
         {file: "photos/conor.jpg", caption: "Original"}
       ]

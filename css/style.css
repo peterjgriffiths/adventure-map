@@ -5,9 +5,16 @@ body, html {
   }
   
   h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 30px;
+    color: #411e17; /* tomato red */
     text-align: center;
-    margin: 10px 0;
+    margin-top: 10px;
   }
+  
+  
+  
+  
   
   #map {
     height: 90vh;
