@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Everything in the header is set-up and isn't shown on the page -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- What shows in the browser tab name -->
   <title>The Adventure Map Challenge</title>
+
+  <!-- CSS for page styling -->
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Leaflet map library -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
@@ -13,18 +21,40 @@
 
   <!-- jQuery must come first -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  <!-- Lightbox2 CSS -->
+
+  <!-- Lightbox2 CSS for photo pop up gallery -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
 
 </head>
+
+<!-- Everything in the body is shown on the page -->
 <body>
-  <h1>📍 The SQ Adventure Map Challenge 📍</h1>
+
+  <header>
+  <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+  <h1>📍 Adventure Map Challenge 📍</h1>
+  <nav id="navbar">
+    <a href="main.html">Map</a>
+    <a href="leaderboard.html">Leaderboard</a>
+  </nav>
+</header>
+
   <div id="map"></div>
 
-  <script src="js/data.js"></script>
+  <script src="js/photos.js"></script>
   <script src="js/script.js"></script>
 
   <!-- Lightbox2 JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
+  <script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const navbar = document.getElementById('navbar');
+
+  menuToggle.addEventListener('click', () => {
+    navbar.classList.toggle('show');
+  });
+  </script>
+
 </body>
 </html>

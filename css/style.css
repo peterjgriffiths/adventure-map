@@ -1,22 +1,69 @@
+/* Applies to body and html, removes browser spacing and uses all of display */
 body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-  
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Chuck a nice grey background on the header */
+header {
+  background-color: #f2f2f2;
+  padding: 10px;
+  position: relative;
+}
+
+/* Main header */
   h1 {
-    font-family: 'Fredoka One', cursive;
+    font-family: 'Roboto';
     font-size: 30px;
     color: #411e17; /* tomato red */
     text-align: center;
     margin-top: 10px;
-  }
+}
   
-  
-  
-  
-  
+  /* 90% of viewport height and all of the width for the map */
   #map {
     height: 90vh;
     width: 100%;
-  }
+}
+
+/* navbar that comes up when you click hamburger menu */
+#navbar {
+  /* hide by default */
+  display: none;
+  flex-direction: column;
+  background-color: #f2f2f2;
+
+  /* positions on top left corner */
+  position: absolute;
+  top: 50px;
+  left: 10px;
+
+  /* nice box with rounded corners */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+
+  /* show above map elements */
+  z-index: 10000;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 5px 0;
+  font-weight: bold;
+}
+
+.menu-toggle {
+  font-size: 28px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+/* Show nav when active */
+#navbar.show {
+  display: flex;
+}

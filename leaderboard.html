@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard | Adventure Map Challenge</title>
+
+  <!-- Link to external CSS file -->
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Extra styles just for the leaderboard page */
+
+    /* Container for the whole leaderboard section */
+    #leaderboard {
+      max-width: 600px;
+      margin: 50px auto;
+      font-family: 'Arial', sans-serif;
+    }
+
+    /* Each player block */
+    .player {
+      margin-bottom: 20px;
+    }
+
+    /* Player name styling */
+    .player-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* Outer container for the progress bar */
+    .progress-container {
+      background-color: #eee;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* Actual progress bar fill */
+    .progress-bar {
+      height: 20px;
+      background-color: #411e17; /* dark red */
+    }
+
+    /* Text below the bar showing numbers */
+    .progress-text {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Website Header with hamburger menu and site title -->
+  <header>
+    <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+    <h1>📍 Adventure Map Challenge 📍</h1>
+
+    <!-- Hidden nav menu that opens with the hamburger icon -->
+    <nav id="navbar">
+      <a href="main.html">Map</a>
+      <a href="leaderboard.html">Leaderboard</a>
+    </nav>
+  </header>
+
+  <!-- Placeholder for dynamic leaderboard content -->
+  <div id="leaderboard"></div>
+
+  <!-- Toggle the hamburger menu -->
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbar = document.getElementById('navbar');
+    menuToggle.addEventListener('click', () => {
+      navbar.classList.toggle('show');
+    });
+  </script>
+
+  <!-- External JavaScript file with players data -->
+  <script src="/js/players.js"></script>
+
+  <!-- Leaderboard logic and render -->
+  <script>
+    // Get all location names owned by other players
+    function getOtherPlayersLocations(currentPlayer) {
+      let others = [];
+      players.forEach(p => {
+        if (p.name !== currentPlayer.name) {
+          others = others.concat(p.ownedLocations);
+        }
+      });
+      return [...new Set(others)]; // Remove duplicates
+    }
+
+    // Renders the leaderboard dynamically
+    function renderLeaderboard() {
+      const container = document.getElementById("leaderboard");
+      container.innerHTML = ""; // Clear previous content
+
+      players.forEach(player => {
+        // Get all other players' locations
+        const others = getOtherPlayersLocations(player);
+
+        // Filter visited locations to only include those from other players
+        const visited = player.visitedLocations.filter(loc => others.includes(loc));
+
+        // Calculate progress percentage for the visual bar
+        const percent = others.length > 0 ? (visited.length / others.length) * 100 : 0;
+
+        // Create DOM elements for this player's block
+        const wrapper = document.createElement("div");
+        wrapper.className = "player";
+
+        const name = document.createElement("div");
+        name.className = "player-name";
+        name.textContent = player.name;
+
+        const progressContainer = document.createElement("div");
+        progressContainer.className = "progress-container";
+
+        const progressBar = document.createElement("div");
+        progressBar.className = "progress-bar";
+        progressBar.style.width = percent + "%";
+
+        const text = document.createElement("div");
+        text.className = "progress-text";
+        text.textContent = `${visited.length} out of ${others.length} visited`;
+
+        // Assemble and attach to the page
+        progressContainer.appendChild(progressBar);
+        wrapper.appendChild(name);
+        wrapper.appendChild(progressContainer);
+        wrapper.appendChild(text);
+        container.appendChild(wrapper);
+      });
+    }
+
+    // Initial render of leaderboard
+    renderLeaderboard();
+  </script>
+</body>
+</html>
