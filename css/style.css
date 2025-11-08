@@ -79,10 +79,12 @@ nav a {
 
 .player {
   margin-bottom: 20px;
+  margin-left: 10px;
 }
 
 .player-name {
   font-weight: bold;
+  margin-left: 10px;
   margin-bottom: 5px;
 }
 
@@ -90,6 +92,7 @@ nav a {
 .progress-container {
   background-color: #eee;
   border-radius: 8px;
+  margin-left: 10%;
   overflow: hidden;
   width: 80%;           /* take up full width of leaderboard container */
   max-width: 600px;      /* optional safety limit */
@@ -106,6 +109,7 @@ nav a {
 
 .progress-text {
   margin-top: 5px;
+  margin-left: 10px;
   font-size: 14px;
   color: #333;
   text-align: left;
