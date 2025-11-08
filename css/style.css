@@ -91,7 +91,7 @@ nav a {
   background-color: #eee;
   border-radius: 8px;
   overflow: hidden;
-  width: 100%;           /* take up full width of leaderboard container */
+  width: 80%;           /* take up full width of leaderboard container */
   max-width: 600px;      /* optional safety limit */
   margin: 0 auto;        /* center it */
 }
