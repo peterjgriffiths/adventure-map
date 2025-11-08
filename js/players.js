@@ -1,17 +1,62 @@
 const players = [
   {
     name: "Aaron",
-    ownedLocations: ["Sydney Opera House", "Great Barrier Reef"],
-    visitedLocations: ["Eiffel Tower", "Statue of Liberty", "Great Barrier Reef"]
+    ownedLocations: ["Sydney Opera House"],
+    visitedLocations: []
+  },
+  {
+    name: "Aled",
+    ownedLocations: ["Burj Khalifa"],
+    visitedLocations: ["Furchetta Mountain", "Lake Bohinj"]
+  },
+  {
+    name: "Charles",
+    ownedLocations: ["Niagra Falls"],
+    visitedLocations: []
+  },
+  {
+    name: "Conor",
+    ownedLocations: ["Muscle Beach LA"],
+    visitedLocations: []
+  },
+  {
+    name: "Costain",
+    ownedLocations: ["Furchetta Mountain"],
+    visitedLocations: []
+  },
+  {
+    name: "Dan",
+    ownedLocations: ["Pulpit Rock"],
+    visitedLocations: []
+  },
+  {
+    name: "Gus",
+    ownedLocations: ["Big Crystal Creek"],
+    visitedLocations: ["Lake Bohinj"]
+  },
+  {
+    name: "James",
+    ownedLocations: ["Lincoln Memorial, Washington"],
+    visitedLocations: []
+  },
+  {
+    name: "Jordan",
+    ownedLocations: ["Lake Bohinj"],
+    visitedLocations: ["Cave of Antiparos"]
   },
   {
     name: "Kieran",
-    ownedLocations: ["Eiffel Tower"],
-    visitedLocations: ["Sydney Opera House", "Statue of Liberty"]
+    ownedLocations: ["Oeschinen Lake"],
+    visitedLocations: ["Sydney Opera House"]
   },
   {
-    name: "Leysh",
-    ownedLocations: ["Statue of Liberty"],
-    visitedLocations: ["Sydney Opera House", "Eiffel Tower", "Great Barrier Reef"]
+    name: "Peter",
+    ownedLocations: ["Panama Canal"],
+    visitedLocations: []
+  },
+  {
+    name: "Tim",
+    ownedLocations: ["Cave of Antiparos"],
+    visitedLocations: []
   }
 ];

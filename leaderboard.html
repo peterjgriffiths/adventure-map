@@ -6,78 +6,44 @@
   <title>Leaderboard | Adventure Map Challenge</title>
 
   <!-- Link to external CSS file -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 
-  <style>
-    /* Extra styles just for the leaderboard page */
-
-    /* Container for the whole leaderboard section */
-    #leaderboard {
-      max-width: 600px;
-      margin: 50px auto;
-      font-family: 'Arial', sans-serif;
-    }
-
-    /* Each player block */
-    .player {
-      margin-bottom: 20px;
-    }
-
-    /* Player name styling */
-    .player-name {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    /* Outer container for the progress bar */
-    .progress-container {
-      background-color: #eee;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    /* Actual progress bar fill */
-    .progress-bar {
-      height: 20px;
-      background-color: #411e17; /* dark red */
-    }
-
-    /* Text below the bar showing numbers */
-    .progress-text {
-      margin-top: 5px;
-      font-size: 14px;
-      color: #333;
-    }
-  </style>
+  
 </head>
 
 <body>
   <!-- Website Header with hamburger menu and site title -->
   <header>
-    <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-    <h1>📍 Adventure Map Challenge 📍</h1>
+  <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+  <h1>📍 Adventure Map Challenge 📍</h1>
 
     <!-- Hidden nav menu that opens with the hamburger icon -->
-    <nav id="navbar">
-      <a href="index.html">Map</a>
-      <a href="leaderboard.html">Leaderboard</a>
-    </nav>
-  </header>
+
+  <nav id="navbar">
+    <a href="index.html">Map</a>
+    <a href="leaderboard.html">Leaderboard</a>
+  </nav>
+</header>
+
+  <!-- Toggle the hamburger menu -->
+
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const navbar = document.getElementById('navbar');
+
+  menuToggle.addEventListener('click', () => {
+    navbar.classList.toggle('show');
+  });
+</script>
+
 
   <!-- Placeholder for dynamic leaderboard content -->
   <div id="leaderboard"></div>
 
-  <!-- Toggle the hamburger menu -->
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const navbar = document.getElementById('navbar');
-    menuToggle.addEventListener('click', () => {
-      navbar.classList.toggle('show');
-    });
-  </script>
+
 
   <!-- External JavaScript file with players data -->
-  <script src="/js/players.js"></script>
+  <script src="js/players.js"></script>
 
   <!-- Leaderboard logic and render -->
   <script>
@@ -92,51 +58,86 @@
       return [...new Set(others)]; // Remove duplicates
     }
 
-    // Renders the leaderboard dynamically
-    function renderLeaderboard() {
-      const container = document.getElementById("leaderboard");
-      container.innerHTML = ""; // Clear previous content
+  // Renders the leaderboard dynamically
+  function renderLeaderboard() {
+  const container = document.getElementById("leaderboard");
+  container.innerHTML = "";
 
-      players.forEach(player => {
-        // Get all other players' locations
-        const others = getOtherPlayersLocations(player);
+  // Build array with calculated stats for sorting
+  const rankedPlayers = players.map(player => {
+    // Get all locations owned by others
+    const others = getOtherPlayersLocations(player);
+    const visited = player.visitedLocations.filter(loc => others.includes(loc));
+    return {
+      ...player,
+      total: others.length,
+      visitedCount: visited.length,
+      visited
+    };
+  });
 
-        // Filter visited locations to only include those from other players
-        const visited = player.visitedLocations.filter(loc => others.includes(loc));
-
-        // Calculate progress percentage for the visual bar
-        const percent = others.length > 0 ? (visited.length / others.length) * 100 : 0;
-
-        // Create DOM elements for this player's block
-        const wrapper = document.createElement("div");
-        wrapper.className = "player";
-
-        const name = document.createElement("div");
-        name.className = "player-name";
-        name.textContent = player.name;
-
-        const progressContainer = document.createElement("div");
-        progressContainer.className = "progress-container";
-
-        const progressBar = document.createElement("div");
-        progressBar.className = "progress-bar";
-        progressBar.style.width = percent + "%";
-
-        const text = document.createElement("div");
-        text.className = "progress-text";
-        text.textContent = `${visited.length} out of ${others.length} visited`;
-
-        // Assemble and attach to the page
-        progressContainer.appendChild(progressBar);
-        wrapper.appendChild(name);
-        wrapper.appendChild(progressContainer);
-        wrapper.appendChild(text);
-        container.appendChild(wrapper);
-      });
+  // Sort: by visited count (descending), then alphabetically (ascending)
+  rankedPlayers.sort((a, b) => {
+    if (b.visitedCount !== a.visitedCount) {
+      return b.visitedCount - a.visitedCount; // most visited first
     }
+    return a.name.localeCompare(b.name); // alphabetical for ties
+  });
 
-    // Initial render of leaderboard
-    renderLeaderboard();
+  // Render leaderboard in sorted order
+  rankedPlayers.forEach((player, index) => {
+    const percent = player.total > 0 ? (player.visitedCount / player.total) * 100 : 0;
+
+    // Player container
+    const wrapper = document.createElement("div");
+    wrapper.className = "player";
+
+    // Header row: rank number + name
+    const header = document.createElement("div");
+    header.style.display = "flex";
+    header.style.alignItems = "center";
+    header.style.gap = "10px";
+    header.style.marginBottom = "5px";
+
+    const rank = document.createElement("div");
+    rank.className = "player-rank";
+    rank.textContent = `#${index + 1}`;
+    rank.style.fontWeight = "bold";
+    rank.style.color = "#411e17";
+    rank.style.minWidth = "35px"; // keeps numbers aligned
+
+    const name = document.createElement("div");
+    name.className = "player-name";
+    name.textContent = player.name;
+
+    header.appendChild(rank);
+    header.appendChild(name);
+
+    // Progress bar container
+    const progressContainer = document.createElement("div");
+    progressContainer.className = "progress-container";
+
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar";
+    progressBar.style.width = percent + "%";
+
+    // Text below bar
+    const text = document.createElement("div");
+    text.className = "progress-text";
+    text.textContent = `${player.visitedCount} out of ${player.total} visited`;
+
+    // Assemble full player block
+    progressContainer.appendChild(progressBar);
+    wrapper.appendChild(header);
+    wrapper.appendChild(progressContainer);
+    wrapper.appendChild(text);
+    container.appendChild(wrapper);
+  });
+}
+
+renderLeaderboard();
+
+
   </script>
 </body>
 </html>

@@ -67,3 +67,46 @@ nav a {
 #navbar.show {
   display: flex;
 }
+/* =============================
+   LEADERBOARD PAGE STYLES
+   ============================= */
+
+#leaderboard {
+  max-width: 600px;
+  margin: 50px auto;
+  font-family: 'Arial', sans-serif;
+}
+
+.player {
+  margin-bottom: 20px;
+}
+
+.player-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Container for each progress bar */
+.progress-container {
+  background-color: #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;           /* take up full width of leaderboard container */
+  max-width: 600px;      /* optional safety limit */
+  margin: 0 auto;        /* center it */
+}
+
+/* The actual filled bar */
+.progress-bar {
+  height: 20px;
+  background-color: #411e17;
+  width: 0;              /* start empty; set dynamically by JS */
+  transition: width 0.5s ease; /* nice animation when it fills */
+}
+
+.progress-text {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #333;
+  text-align: left;
+}
