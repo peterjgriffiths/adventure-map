@@ -38,7 +38,15 @@
 
 
   <!-- Placeholder for dynamic leaderboard content -->
-  <div id="leaderboard"></div>
+  <div class="leaderboard-section">
+    <h2 class="leaderboard-title">🏆 Most Locations Visited</h2>
+    <div id="leaderboard-people"></div>
+  </div>
+
+  <div class="leaderboard-section">
+    <h2 class="leaderboard-title">📍 Most Visited Locations</h2>
+    <div id="leaderboard-locations"></div>
+  </div>
 
 
 
@@ -58,84 +66,168 @@
       return [...new Set(others)]; // Remove duplicates
     }
 
-  // Renders the leaderboard dynamically
-  function renderLeaderboard() {
-  const container = document.getElementById("leaderboard");
-  container.innerHTML = "";
+  // Renders the people leaderboard (who visited most locations)
+  function renderPeopleLeaderboard() {
+    const container = document.getElementById("leaderboard-people");
+    container.innerHTML = "";
 
-  // Build array with calculated stats for sorting
-  const rankedPlayers = players.map(player => {
-    // Get all locations owned by others
-    const others = getOtherPlayersLocations(player);
-    const visited = player.visitedLocations.filter(loc => others.includes(loc));
-    return {
-      ...player,
-      total: others.length,
-      visitedCount: visited.length,
-      visited
-    };
-  });
+    // Build array with calculated stats for sorting
+    const rankedPlayers = players.map(player => {
+      // Get all locations owned by others
+      const others = getOtherPlayersLocations(player);
+      const visited = player.visitedLocations.filter(loc => others.includes(loc));
+      return {
+        ...player,
+        total: others.length,
+        visitedCount: visited.length,
+        visited
+      };
+    });
 
-  // Sort: by visited count (descending), then alphabetically (ascending)
-  rankedPlayers.sort((a, b) => {
-    if (b.visitedCount !== a.visitedCount) {
-      return b.visitedCount - a.visitedCount; // most visited first
-    }
-    return a.name.localeCompare(b.name); // alphabetical for ties
-  });
+    // Sort: by visited count (descending), then alphabetically (ascending)
+    rankedPlayers.sort((a, b) => {
+      if (b.visitedCount !== a.visitedCount) {
+        return b.visitedCount - a.visitedCount; // most visited first
+      }
+      return a.name.localeCompare(b.name); // alphabetical for ties
+    });
 
-  // Render leaderboard in sorted order
-  rankedPlayers.forEach((player, index) => {
-    const percent = player.total > 0 ? (player.visitedCount / player.total) * 100 : 0;
+    // Render leaderboard in sorted order
+    rankedPlayers.forEach((player, index) => {
+      const percent = player.total > 0 ? (player.visitedCount / player.total) * 100 : 0;
 
-    // Player container
-    const wrapper = document.createElement("div");
-    wrapper.className = "player";
+      // Player container
+      const wrapper = document.createElement("div");
+      wrapper.className = "player";
 
-    // Header row: rank number + name
-    const header = document.createElement("div");
-    header.style.display = "flex";
-    header.style.alignItems = "center";
-    header.style.gap = "10px";
-    header.style.marginBottom = "5px";
+      // Header row: rank number + name
+      const header = document.createElement("div");
+      header.style.display = "flex";
+      header.style.alignItems = "center";
+      header.style.gap = "10px";
+      header.style.marginBottom = "5px";
 
-    const rank = document.createElement("div");
-    rank.className = "player-rank";
-    rank.textContent = `#${index + 1}`;
-    rank.style.fontWeight = "bold";
-    rank.style.color = "#411e17";
-    rank.style.minWidth = "35px"; // keeps numbers aligned
+      const rank = document.createElement("div");
+      rank.className = "player-rank";
+      rank.textContent = `#${index + 1}`;
+      rank.style.fontWeight = "bold";
+      rank.style.color = "#411e17";
+      rank.style.minWidth = "35px"; // keeps numbers aligned
 
-    const name = document.createElement("div");
-    name.className = "player-name";
-    name.textContent = player.name;
+      const name = document.createElement("div");
+      name.className = "player-name";
+      name.textContent = player.name;
 
-    header.appendChild(rank);
-    header.appendChild(name);
+      header.appendChild(rank);
+      header.appendChild(name);
 
-    // Progress bar container
-    const progressContainer = document.createElement("div");
-    progressContainer.className = "progress-container";
+      // Progress bar container
+      const progressContainer = document.createElement("div");
+      progressContainer.className = "progress-container";
 
-    const progressBar = document.createElement("div");
-    progressBar.className = "progress-bar";
-    progressBar.style.width = percent + "%";
+      const progressBar = document.createElement("div");
+      progressBar.className = "progress-bar";
+      progressBar.style.width = percent + "%";
 
-    // Text below bar
-    const text = document.createElement("div");
-    text.className = "progress-text";
-    text.textContent = `${player.visitedCount} out of ${player.total} visited`;
+      // Text below bar
+      const text = document.createElement("div");
+      text.className = "progress-text";
+      text.textContent = `${player.visitedCount} out of ${player.total} visited`;
 
-    // Assemble full player block
-    progressContainer.appendChild(progressBar);
-    wrapper.appendChild(header);
-    wrapper.appendChild(progressContainer);
-    wrapper.appendChild(text);
-    container.appendChild(wrapper);
-  });
-}
+      // Assemble full player block
+      progressContainer.appendChild(progressBar);
+      wrapper.appendChild(header);
+      wrapper.appendChild(progressContainer);
+      wrapper.appendChild(text);
+      container.appendChild(wrapper);
+    });
+  }
 
-renderLeaderboard();
+  // Renders the locations leaderboard (which locations are most visited)
+  function renderLocationsLeaderboard() {
+    const container = document.getElementById("leaderboard-locations");
+    container.innerHTML = "";
+
+    // Collect all locations and count visitors
+    const locationVisits = {};
+    
+    players.forEach(player => {
+      player.visitedLocations.forEach(location => {
+        if (!locationVisits[location]) {
+          locationVisits[location] = [];
+        }
+        locationVisits[location].push(player.name);
+      });
+    });
+
+    // Convert to array and sort by number of visitors (descending), then alphabetically
+    const rankedLocations = Object.entries(locationVisits)
+      .map(([location, visitors]) => ({ location, visitors, count: visitors.length }))
+      .sort((a, b) => {
+        if (b.count !== a.count) {
+          return b.count - a.count; // most visited first
+        }
+        return a.location.localeCompare(b.location); // alphabetical for ties
+      });
+
+    // Find max count for percentage calculation
+    const maxCount = rankedLocations.length > 0 ? rankedLocations[0].count : 1;
+
+    // Render leaderboard in sorted order
+    rankedLocations.forEach((item, index) => {
+      const percent = (item.count / maxCount) * 100;
+
+      // Location container
+      const wrapper = document.createElement("div");
+      wrapper.className = "player";
+
+      // Header row: rank number + location name
+      const header = document.createElement("div");
+      header.style.display = "flex";
+      header.style.alignItems = "center";
+      header.style.gap = "10px";
+      header.style.marginBottom = "5px";
+
+      const rank = document.createElement("div");
+      rank.className = "player-rank";
+      rank.textContent = `#${index + 1}`;
+      rank.style.fontWeight = "bold";
+      rank.style.color = "#411e17";
+      rank.style.minWidth = "35px";
+
+      const name = document.createElement("div");
+      name.className = "player-name";
+      name.textContent = item.location;
+
+      header.appendChild(rank);
+      header.appendChild(name);
+
+      // Progress bar container
+      const progressContainer = document.createElement("div");
+      progressContainer.className = "progress-container";
+
+      const progressBar = document.createElement("div");
+      progressBar.className = "progress-bar";
+      progressBar.style.width = percent + "%";
+
+      // Text below bar
+      const text = document.createElement("div");
+      text.className = "progress-text";
+      const visitorList = item.visitors.join(", ");
+      text.textContent = `${item.count} visitor${item.count !== 1 ? 's' : ''}: ${visitorList}`;
+
+      // Assemble full location block
+      progressContainer.appendChild(progressBar);
+      wrapper.appendChild(header);
+      wrapper.appendChild(progressContainer);
+      wrapper.appendChild(text);
+      container.appendChild(wrapper);
+    });
+  }
+
+  // Render both leaderboards
+  renderPeopleLeaderboard();
+  renderLocationsLeaderboard();
 
 
   </script>
