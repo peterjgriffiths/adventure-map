@@ -77,6 +77,28 @@ nav a {
   font-family: 'Arial', sans-serif;
 }
 
+/* Make the location leaderboard match the player leaderboard (same width, centering, font) */
+#location-leaderboard {
+  max-width: 600px;
+  margin: 20px auto 50px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Headings for both leaderboards */
+#leaderboard h2,
+#location-leaderboard h2 {
+  text-align: center;
+  font-size: 20px;
+  color: #411e17;
+  margin-bottom: 10px;
+}
+
+/* Remove the small left indent inside the centered leaderboard containers */
+#leaderboard .player,
+#location-leaderboard .player {
+  margin-left: 0;
+}
+
 .player {
   margin-bottom: 20px;
   margin-left: 10px;
