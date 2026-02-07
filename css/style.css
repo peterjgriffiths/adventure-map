@@ -71,6 +71,21 @@ nav a {
    LEADERBOARD PAGE STYLES
    ============================= */
 
+.leaderboard-section {
+  max-width: 600px;
+  margin: 30px auto;
+  font-family: 'Arial', sans-serif;
+}
+
+.leaderboard-title {
+  font-family: 'Roboto', 'Arial', sans-serif;
+  font-size: 24px;
+  color: #411e17;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
 #leaderboard {
   max-width: 600px;
   margin: 50px auto;
