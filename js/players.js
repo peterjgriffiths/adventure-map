@@ -42,7 +42,7 @@ const players = [
   {
     name: "Jordan",
     ownedLocations: ["Lake Bohinj"],
-    visitedLocations: ["Cave of Antiparos"]
+    visitedLocations: ["Cave of Antiparos", "Sydney Opera House"]
   },
   {
     name: "Kieran",
@@ -52,7 +52,7 @@ const players = [
   {
     name: "Peter",
     ownedLocations: ["Panama Canal"],
-    visitedLocations: []
+    visitedLocations: ["Sydney Opera House"]
   },
   {
     name: "Tim",
