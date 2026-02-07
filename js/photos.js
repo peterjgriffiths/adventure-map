@@ -8,7 +8,8 @@ const locations = [
       photos : [
         {file: "photos/aaron.jpg", caption: "Original"},
         {file: "photos/aaron-kieran.jpg", caption: "Kieran"},
-        {file: "photos/aaron-leysh.jpg", caption: "Leysh"}
+        {file: "photos/aaron-leysh.jpg", caption: "Leysh"},
+        {file: "photos/aaron-petejord.jpg", caption: "Pete & Jordan"}
       ]
     },
     {
