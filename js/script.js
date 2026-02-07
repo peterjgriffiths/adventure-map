@@ -47,7 +47,7 @@ locations.forEach(loc => {
     photoHTML += `
       <div style="flex: 0 0 auto; text-align: center;">
         <a href="${photo.file}" data-lightbox="${lightboxGroup}" data-title="${photo.caption}">
-          <img src="${photo.file}" alt="${photo.caption}" style="width: 100px; height: auto; border-radius: 6px;" />
+          <img class="popup-thumb" loading="lazy" src="${photo.file}" alt="${photo.caption}" style="width: 100px; height: auto; border-radius: 6px;" />
         </a><br>
         <small>${photo.caption}</small>
       </div>

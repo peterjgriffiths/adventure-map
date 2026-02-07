@@ -5,6 +5,14 @@ body, html {
   height: 100%;
 }
 
+:root {
+  --color-primary: #411e17;
+  --color-muted: #666;
+  --bg: #f8f8f8;
+  --card-radius: 8px;
+  --gap: 12px;
+}
+
 /* Chuck a nice grey background on the header */
 header {
   background-color: #f2f2f2;
@@ -14,7 +22,7 @@ header {
 
 /* Main header */
   h1 {
-    font-family: 'Roboto';
+    font-family: 'Inter', 'Roboto', sans-serif;
     font-size: 30px;
     color: #411e17; /* tomato red */
     text-align: center;
@@ -25,6 +33,31 @@ header {
   #map {
     height: 90vh;
     width: 100%;
+}
+
+/* Make player rows look like cards */
+.player {
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: 0 6px 18px rgba(65,30,23,0.06);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+/* progress bar animation */
+.progress-bar {
+  height: 20px;
+  background-color: var(--color-primary);
+  width: 0;
+  transition: width 0.6s ease;
+}
+
+/* popup gallery thumbnail styling */
+.popup-thumb {
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 /* navbar that comes up when you click hamburger menu */
