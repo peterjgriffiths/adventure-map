@@ -98,6 +98,41 @@ nav a {
 #location-leaderboard .player {
   margin-left: 0;
 }
+/* New container for side-by-side layout on wide screens */
+.leaderboards-container {
+  display: block; /* default stacked */
+  gap: 24px;
+  align-items: flex-start;
+}
+
+@media (min-width: 900px) {
+  .leaderboards-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+  }
+  /* ensure both leaderboard panels have the same width when side-by-side */
+  .leaderboards-container > div {
+    flex: 0 0 480px; /* controls column width */
+  }
+}
+
+/* details/summary styling */
+details summary {
+  list-style: none;
+}
+details summary::marker {
+  display: none;
+}
+details summary {
+  outline: none;
+}
+details summary::-webkit-details-marker {
+  display: none;
+}
+details summary {
+  cursor: pointer;
+}
 
 .player {
   margin-bottom: 20px;

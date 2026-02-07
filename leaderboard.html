@@ -37,9 +37,11 @@
 </script>
 
 
-  <!-- Placeholder for dynamic leaderboard content -->
-  <div id="leaderboard"></div>
-  <div id="location-leaderboard"></div>
+  <!-- Container for both leaderboards (will be stacked on small screens, side-by-side on wide screens) -->
+  <div class="leaderboards-container">
+    <div id="leaderboard"></div>
+    <div id="location-leaderboard"></div>
+  </div>
 
 
 
@@ -89,9 +91,14 @@
       h.textContent = 'Player Leaderboard';
       container.appendChild(h);
 
-      // Render leaderboard in sorted order
+      // Render leaderboard in sorted order with competition ranking (ties share rank)
+      let prevScore = null;
+      let prevRank = 0;
       rankedPlayers.forEach((player, index) => {
         const percent = player.total > 0 ? (player.visitedCount / player.total) * 100 : 0;
+        const rank = (player.visitedCount === prevScore) ? prevRank : (index + 1);
+        prevScore = player.visitedCount;
+        prevRank = rank;
 
         const wrapper = document.createElement("div");
         wrapper.className = "player";
@@ -102,18 +109,18 @@
         header.style.gap = "10px";
         header.style.marginBottom = "5px";
 
-        const rank = document.createElement("div");
-        rank.className = "player-rank";
-        rank.textContent = `#${index + 1}`;
-        rank.style.fontWeight = "bold";
-        rank.style.color = "#411e17";
-        rank.style.minWidth = "35px";
+        const rankEl = document.createElement("div");
+        rankEl.className = "player-rank";
+        rankEl.textContent = `#${rank}`;
+        rankEl.style.fontWeight = "bold";
+        rankEl.style.color = "#411e17";
+        rankEl.style.minWidth = "35px";
 
         const name = document.createElement("div");
         name.className = "player-name";
         name.textContent = player.name;
 
-        header.appendChild(rank);
+        header.appendChild(rankEl);
         header.appendChild(name);
 
         const progressContainer = document.createElement("div");
@@ -127,10 +134,30 @@
         text.className = "progress-text";
         text.textContent = `${player.visitedCount} out of ${player.total} visited`;
 
+        // details for visited locations
+        const details = document.createElement('details');
+        details.style.marginTop = '6px';
+        const summary = document.createElement('summary');
+        summary.textContent = `Show visited locations (${player.visitedCount})`;
+        summary.style.fontSize = '13px';
+        summary.style.color = '#666';
+        summary.style.cursor = 'pointer';
+        const list = document.createElement('ul');
+        list.style.margin = '6px 0 0 18px';
+        list.style.padding = '0';
+        player.visited.forEach(locName => {
+          const li = document.createElement('li');
+          li.textContent = locName;
+          list.appendChild(li);
+        });
+        details.appendChild(summary);
+        details.appendChild(list);
+
         progressContainer.appendChild(progressBar);
         wrapper.appendChild(header);
         wrapper.appendChild(progressContainer);
         wrapper.appendChild(text);
+        wrapper.appendChild(details);
         container.appendChild(wrapper);
       });
     }
@@ -169,8 +196,14 @@
         return a.name.localeCompare(b.name);
       });
 
-      // Render each location row
+      // Render each location row with competition ranking and details for visitors
+      let prevScore = null;
+      let prevRank = 0;
       stats.forEach((s, index) => {
+        const rank = (s.visitorsCount === prevScore) ? prevRank : (index + 1);
+        prevScore = s.visitorsCount;
+        prevRank = rank;
+
         const wrapper = document.createElement('div');
         wrapper.className = 'player';
 
@@ -180,18 +213,18 @@
         header.style.gap = '10px';
         header.style.marginBottom = '5px';
 
-        const rank = document.createElement('div');
-        rank.className = 'player-rank';
-        rank.textContent = `#${index + 1}`;
-        rank.style.fontWeight = 'bold';
-        rank.style.color = '#411e17';
-        rank.style.minWidth = '35px';
+        const rankEl = document.createElement('div');
+        rankEl.className = 'player-rank';
+        rankEl.textContent = `#${rank}`;
+        rankEl.style.fontWeight = 'bold';
+        rankEl.style.color = '#411e17';
+        rankEl.style.minWidth = '35px';
 
         const name = document.createElement('div');
         name.className = 'player-name';
         name.textContent = s.name;
 
-        header.appendChild(rank);
+        header.appendChild(rankEl);
         header.appendChild(name);
 
         const ownerInfo = document.createElement('div');
@@ -210,11 +243,32 @@
         text.className = 'progress-text';
         text.textContent = `${s.visitorsCount} out of ${s.maxPossible} visitors`;
 
+        // details for visitors list
+        const details = document.createElement('details');
+        details.style.marginTop = '6px';
+        const summary = document.createElement('summary');
+        summary.textContent = `Show visitors (${s.visitorsCount})`;
+        summary.style.fontSize = '13px';
+        summary.style.color = '#666';
+        summary.style.cursor = 'pointer';
+        const list = document.createElement('ul');
+        list.style.margin = '6px 0 0 18px';
+        list.style.padding = '0';
+        // populate visitors
+        players.filter(p => p.visitedLocations.includes(s.name)).forEach(p => {
+          const li = document.createElement('li');
+          li.textContent = p.name;
+          list.appendChild(li);
+        });
+        details.appendChild(summary);
+        details.appendChild(list);
+
         progressContainer.appendChild(progressBar);
         wrapper.appendChild(header);
         wrapper.appendChild(ownerInfo);
         wrapper.appendChild(progressContainer);
         wrapper.appendChild(text);
+        wrapper.appendChild(details);
         container.appendChild(wrapper);
       });
     }
