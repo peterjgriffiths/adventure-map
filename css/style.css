@@ -90,7 +90,7 @@ nav a {
   text-align: center;
   font-size: 20px;
   color: #411e17;
-  margin-bottom: 10px;
+  margin: 0 0 10px; /* remove default top margin so headings align */
 }
 
 /* Remove the small left indent inside the centered leaderboard containers */
@@ -110,28 +110,31 @@ nav a {
     display: flex;
     justify-content: center;
     gap: 40px;
+    padding-top: 50px; /* consistent top spacing when side-by-side */
   }
   /* ensure both leaderboard panels have the same width when side-by-side */
   .leaderboards-container > div {
     flex: 0 0 480px; /* controls column width */
+    margin: 0; /* remove per-panel margins so tops line up */
   }
 }
 
-/* details/summary styling */
-details summary {
+/* details/summary styling (uniform across both leaderboards) */
+.leaderboards-container details summary {
   list-style: none;
-}
-details summary::marker {
-  display: none;
-}
-details summary {
   outline: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #666;
+  font-weight: 700; /* keep bold as requested */
+  margin-top: 6px;
 }
-details summary::-webkit-details-marker {
+.leaderboards-container details summary::-webkit-details-marker {
   display: none;
 }
-details summary {
-  cursor: pointer;
+.leaderboards-container details ul {
+  margin: 6px 0 0 18px;
+  padding: 0;
 }
 
 .player {
